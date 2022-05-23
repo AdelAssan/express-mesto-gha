@@ -8,15 +8,10 @@
 Для этого замените разметку бейджей на следующий фрагмент, подставив вместо `${имя_пользователя}` и `${имя_репозитория}` соответствующие значения.
 
 ```
-<<<<<<< HEAD
 [![Tests for sprint 13](https://github.com/AdelAssan/express-mesto-gha/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/AdelAssan/express-mesto-gha/actions/workflows/tests-13-sprint.yml) 
 
 [![Tests for sprint 14](https://github.com/AdelAssan/express-mesto-gha/actions/workflows/tests-14-sprint.yml/badge.svg)](https://github.com/AdelAssan/express-mesto-gha/actions/workflows/tests-14-sprint.yml)
-=======
-[![Tests for sprint 13](https://github.com/${имя_пользователя}/express-mesto-gha/actions/workflows/tests-13-sprint.yml/badge.svg)](https://github.com/${имя_пользователя}/${имя_репозитория}/actions/workflows/tests-13-sprint.yml) 
 
-[![Tests for sprint 14](https://github.com/${имя_пользователя}/express-mesto-gha/actions/workflows/tests-14-sprint.yml/badge.svg)](https://github.com/${имя_пользователя}/${имя_репозитория}/actions/workflows/tests-14-sprint.yml)
->>>>>>> 9430aee2e5352eab1b22f0c12488816a7099c648
 ```
 
 
