@@ -37,7 +37,7 @@ module.exports.searchUser = (req, res) => {
 
 module.exports.updateProfile = (req, res) => {
   const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true, upsert: true })
     .then((user) => {
       if (!user) {
         res.status(404).send({ message: 'Пользователь не найден' });
@@ -46,7 +46,7 @@ module.exports.updateProfile = (req, res) => {
       res.send({ data: user });
     })
     .catch((error) => {
-      if (error.name === 'ValidatorError') {
+      if (error.name === 'ValidationError') {
         res.status(400).send({ message: 'Переданы некорректные данные' });
         return;
       }
@@ -56,7 +56,7 @@ module.exports.updateProfile = (req, res) => {
 
 module.exports.updateAvatar = (req, res) => {
   const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
+  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true, upsert: true })
     .then((user) => {
       if (!user) {
         res.status(404).send({ message: 'Пользователь не найден' });
@@ -65,9 +65,8 @@ module.exports.updateAvatar = (req, res) => {
       res.send({ data: user });
     })
     .catch((error) => {
-      if (error.name === 'ValidatorError') {
-        res.status(400).send({ message: 'Переданы некорректные данные' });
-        return;
+      if (error.name === 'ValidationError') {
+        return res.status(400).send({ message: 'Переданы некорректные данные' });
       }
       res.status(500).send({ message: 'Ошибка по умолчанию' });
     });
