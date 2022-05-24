@@ -37,7 +37,11 @@ module.exports.searchUser = (req, res) => {
 
 module.exports.updateProfile = (req, res) => {
   const { name, about } = req.body;
-  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true, upsert: true })
+  User.findByIdAndUpdate(
+    req.user._id,
+    { name, about },
+    { new: true, runValidators: true, upsert: true },
+  )
     .then((user) => {
       if (!user) {
         res.status(404).send({ message: 'Пользователь не найден' });
@@ -66,7 +70,8 @@ module.exports.updateAvatar = (req, res) => {
     })
     .catch((error) => {
       if (error.name === 'ValidationError') {
-        return res.status(400).send({ message: 'Переданы некорректные данные' });
+        res.status(400).send({ message: 'Переданы некорректные данные' });
+        return;
       }
       res.status(500).send({ message: 'Ошибка по умолчанию' });
     });
