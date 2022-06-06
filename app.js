@@ -1,24 +1,42 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const {postUser, loginUser} = require("./controllers/users");
+const auth = require('./middlewares/auth')
+const {errors, celebrate, Joi} = require('celebrate');
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
-// app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: '6289e136eb63a66c427fd42f',
-  };
-  next();
-});
-app.use('/', require('./routes/users'));
-app.use('/', require('./routes/cards'));
+app.post('/signup', celebrate({
+    body: Joi.object().keys({
+        name: Joi.string().min(2).max(30),
+        about: Joi.string().min(2).max(30),
+        avatar: Joi.string().pattern(/(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+/),
+        email: Joi.string().required().email(),
+        password: Joi.string().required(),
+    }),
+}), postUser);
+app.post('/signin', celebrate({
+    body: Joi.object().keys({
+        email: Joi.string().required().email(),
+        password: Joi.string().required(),
+    })
+}), loginUser);
+app.use('/', auth, require('./routes/users'));
+app.use('/', auth, require('./routes/cards'));
 
-app.use('*', (_, res) => res.status(404).send({ message: 'net' }));
+app.use('*', (_, res) => res.status(404).send({ message: 'NotFound' }));
+app.use(errors());
+
+app.use((err, req, res, next) => {
+    const {statusCode = 500, message} = err;
+    res.status(statusCode).send({message: statusCode === 500 ? "На сервере произошла ошибка" : message});
+    next();
+});
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
