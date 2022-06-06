@@ -56,7 +56,9 @@ module.exports.getCurrentUser = (req, res, next) => {
   }).catch((error) => {
     if (error.name === 'CastError') {
       next(new ErrorData('Неправильный id'));
+      return;
     }
+    next(error)
   });
 };
 

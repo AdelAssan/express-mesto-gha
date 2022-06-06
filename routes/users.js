@@ -8,7 +8,7 @@ const {
 router.get('/users', getUsers);
 router.get('/users/:userId', celebrate({
   params: Joi.object().keys({
-    userId: Joi.string().required().length(24).hex(),
+    userId: Joi.string().required().length(24),
   }),
 }), searchUser);
 // router.post('/users', postUser);
@@ -23,6 +23,6 @@ router.patch('/users/me/avatar', celebrate({
     avatar: Joi.string().required().pattern(/(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+/),
   }),
 }), updateAvatar);
-router.get('users/me', getCurrentUser);
+router.get('/users/me', getCurrentUser);
 
 module.exports = router;
