@@ -58,7 +58,7 @@ module.exports.getCurrentUser = (req, res, next) => {
       next(new ErrorData('Неправильный id'));
       return;
     }
-    next(error)
+    next(error);
   });
 };
 
