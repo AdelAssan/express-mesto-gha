@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const { errors, celebrate, Joi } = require('celebrate');
 const { postUser, loginUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const NotFoundError = require('./errors/NotFoundError');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -29,7 +30,7 @@ app.post('/signin', celebrate({
 app.use('/', auth, require('./routes/users'));
 app.use('/', auth, require('./routes/cards'));
 
-app.use('*', (_, res) => res.status(404).send({ message: 'NotFound' }));
+app.use('*', (_, res, next) => next(new NotFoundError('Страница не найдена')));
 app.use(errors());
 
 app.use((err, req, res, next) => {
