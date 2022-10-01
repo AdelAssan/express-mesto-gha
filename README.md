@@ -27,3 +27,6 @@
 
 `npm run start` — запускает сервер   
 `npm run dev` — запускает сервер с hot-reload
+
+## Deploy heroku:
+https://mesto-tst.herokuapp.com/
